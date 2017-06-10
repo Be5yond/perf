@@ -1,0 +1,6 @@
+django-model-utils
+django-bootstrap3
+fabric
+django-celery
+channels
+redis

@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="ibox-title h5">
+    <ol class="breadcrumb ">
+        <li><a href="#">Home</a></li>
+        <li class="active">Help</li>
+    </ol>
+</div>
+
+<div class="ibox-content h5">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">主机管理</h3>
+        </div>
+        <div class="panel-body">
+            添加主机到平台(主机名称，IP，登录用户，密码)<br>
+            主机状态说明：'init'--已添加, 'installing'--安装工具中, 'idle'--安装完毕, 'error'--安装错误 'testing'--测试中, 'offline'--不在线, 'delete'--已删除<br>
+            主机详情页面-ssh登录到主机实时交互<br>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">模版管理</h3>
+        </div>
+        <div class="panel-body">
+            可复用的测试工具命令，<br>
+            由测试工具和参数组成，发送命令的默认路径为目标主机的用户目录+/performance,如/home/leuser/performance<br>
+            同一测试工具根据参数不同需建立多个模版，建议模版名称体现测试目的。如:unixbench_1_thread, fio_rd_64k<br>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">任务执行</h3>
+        </div>
+        <div class="panel-body">
+            选择主机---> 选择测试模板---> 执行时间---> 运行<br>
+            任务列表中查看测试报告和log<br>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

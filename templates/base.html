@@ -1,0 +1,71 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=1 %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="/static/css/style.css" rel="stylesheet">
+    {% block header-content %}{% endblock %}
+</head>
+<body>
+    <div id="wrapper">
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav panel-group" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs">
+                                        欢迎您，<strong class="font-bold">{{ session.chinesename }}</strong> <b class="caret"></b>
+                                    </span>
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            </ul>
+                        </div>
+                    </li>
+                    <li id="host">
+                        <a href="{% url 'app:host' '' %}"><i class="glyphicon glyphicon-modal-window"></i> <span class="nav-label">主机管理</span></a>
+                    </li>
+                    <li id="task">
+                        <a href="{% url 'app:tool' %}"><i class="glyphicon glyphicon-wrench"></i> <span class="nav-label">测试模版</span></a>
+                    </li>
+                    <li id="server">
+                        <a data-toggle="collapse" data-parent="#side-menu" href="#collapse">
+                            <i class="glyphicon glyphicon-tasks"></i>
+                            <span class="nav-label">任务管理</span>
+                            <span class="glyphicon glyphicon-chevron-right"></span></a>
+                        <ul id="collapse" class="nav nav-second-level collapse panel-collapse">
+                            <li><a href="{% url 'app:task' %}">任务列表</a></li>
+                            <li><a href="{% url 'app:task_step' %}">新建任务</a></li>
+                        </ul>
+                    </li>
+                    <li id="help">
+                        <a href="{% url 'app:help' %}"><i class="glyphicon glyphicon-question-sign"></i> <span class="nav-label">帮助</span></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <div id="page-wrapper" class="gray-bg">
+            {% include 'header_nav.html' %}
+            {% block content %}{% endblock %}
+            <div class="footer fixed">
+                <div class="pull-right">
+                    mymail@address.com
+                </div>
+                <div>
+                    系统测试平台
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

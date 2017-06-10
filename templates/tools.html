@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="ibox-title">
+    <ol class="breadcrumb ">
+        <li><a href="#">Home</a></li>
+        <li class="active">Profiles</li>
+    </ol>
+</div>
+
+<div class="ibox-content h5" id="tools">
+    {{ form.subject.errors }}
+    <table class="table table-striped table-bordered table-hover ">
+        <thead>
+        <tr>
+            <th class="text-center" width="15%">名称</th>
+            <th class="text-center" width="15%">描述</th>
+            <th class="text-center" width="10%">工具</th>
+            <th class="text-center" width="25%">参数</th>
+            <th class="text-center" width="20%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for r in tools %}
+        <tr>
+            <td class="text-center">{{ r.name }}</td>
+            <td class="text-center">{{ r.desc }}</td>
+            <td class="text-center">{{ r.tool.name }}</td>
+            <td class="text-center">{{ r.params | truncatechars:"60"}}</td>
+            <td class="text-center">
+                <a href="/perf/tools/?id={{ r.id }}" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+                <button class="btn btn-danger" type="button" id='del_rule' data-toggle="modal" data-target="#del_rule_{{ r.id }}">
+                    <i class="glyphicon glyphicon-trash"></i></button>
+                <div class="modal fade" id="del_rule_{{ r.id }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">确认删除这条规则吗？</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" class="form-horizontal" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <button type="button" name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button name="btn_del" value="{{ r.id }}" class="btn btn-primary">确定</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="ibox-content h5" >
+    <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#new_profile">New Profile</a>
+    <div class="modal fade" id="new_profile">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New Profile</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="add_host_form" class="form-horizontal" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% bootstrap_form form_new %}
+                        <div class="modal-footer">
+                            <button name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button name="btn_create" value="" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="edit_profile">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit Profile</h4>
+                </div>
+                <div class="modal-body">
+                    <form method="post" id="edit_profile_form" class="form-horizontal" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% bootstrap_form form %}
+                        <div class="modal-footer">
+                            <button name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                            <button name="btn_edit" value="{{ tid }}" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    {% if tid %}
+    $('#edit_profile').modal('toggle')
+    {% endif %}
+</script>
+{% endblock %}

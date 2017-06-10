@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="ibox-title">
+    <ol class="breadcrumb ">
+        <li><a href="#">Home</a></li>
+        <li class="active">Hosts</li>
+    </ol>
+</div>
+
+<div class="ibox-content h5" id="filters">
+    {{ form.subject.errors }}
+    <ul class="nav nav-pills">
+        <li class="dropdown">
+            <button id="dLabel" type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" >
+                状态
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                <li><a name="btn_wait" class="btn btn-primary btn-lg" onclick="setUri('status', 'idle')">idle</a></li>
+                <li><a name="btn_wait" class="btn btn-warning btn-lg" onclick="setUri('status', 'testing')">testing</a></li>
+                <li><a name="btn_wait" class="btn btn-info btn-lg" onclick="setUri('status', 'error')">error</a></li>
+            </ul>
+        </li>
+        <!--<li class="dropdown">-->
+            <!--<button id="eLabel" type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" >-->
+                <!--测试项-->
+                <!--<span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu" aria-labelledby="dLabel">-->
+                <!--<li><a name="btn_wait" class="btn btn-primary btn-lg" onclick="setUri('status', 'wait')">排队中</a></li>-->
+            <!--</ul>-->
+        <!--</li>-->
+        <li class="pull-right">
+            <a name="btn_create" data-toggle="modal" data-target="#new_host" class="btn btn-info btn-lg" style="color:white;">
+                <i class="glyphicon glyphicon-plus"></i></a>
+        </li>
+    </ul>
+</div>
+<div class="ibox-content h5" id="tasks">
+    <table class="table table-striped table-bordered table-hover ">
+        <thead>
+        <tr>
+            <th class="text-center" width="5%">状态</th>
+            <th class="text-center" width="15%">名称</th>
+            <th class="text-center" width="10%">IP</th>
+            <th class="text-center" width="15%">用户名</th>
+            <th class="text-center" width="15%">密码</th>
+            <th class="text-center" width="25%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for h in hosts%}
+        <tr>
+            <td class="text-center">{{ h.status }}</td>
+            <td class="text-center">{{ h.name }}</td>
+            <td class="text-center">{{ h.ip }}</td>
+            <td class="text-center">{{ h.user }}</td>
+            <td class="text-center">{{ h.password }}</td>
+            <td class="text-center">
+                <a href="/perf/hosts/?id={{ h.id }}" class="btn btn-info"><i class="glyphicon glyphicon-edit"></i></a>
+                <button class="btn btn-danger" type="button" id='del_rule' data-toggle="modal" data-target="#del_host_{{ h.id }}">
+                    <i class="glyphicon glyphicon-trash"></i></button>
+                <a href="/perf/hosts/{{ h.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-eye-open"></i></a>
+                <div class="modal fade" id="del_host_{{ h.id }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">确认删除这个主机吗？</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" class="form-horizontal" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <button type="button" name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button name="btn_del" value="{{ h.id }}" class="btn btn-primary">确定</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-lg">
+            {% if p.has_previous %}
+            <li>
+                <a onclick="setUri('page', {{ p.previous_page_number }})"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            {% endif %}
+            {% for n in page_range %}
+            <li><a onclick="setUri('page', {{ n }})">{{ n }}</a></li>
+            {% endfor %}
+            {% if p.has_next %}
+            <li>
+                <a onclick="setUri('page', {{ p.next_page_number }})"><span aria-hidden="true">&raquo;</span></a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<div class="modal fade" id="new_host">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New Host</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="add_host_form" class="form-horizontal" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% bootstrap_form form_new %}
+                    <div class="modal-footer">
+                        <button name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button name="btn_create" value="" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="edit_host">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">New Host</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" id="edit_host_form" class="form-horizontal" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    <div class="modal-footer">
+                        <button name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button name="btn_edit" value="{{ hid }}" class="btn btn-primary">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    {% if hid %}
+    $('#edit_host').modal('toggle')
+    {% endif %}
+
+    function setUri(para, val) {
+      var strNewUrl = new String();
+      var strUrl = new String();
+      var url = window.location.href;
+      strUrl = window.location.href;
+
+      if (strUrl.indexOf("?") != -1) {
+        strUrl = strUrl.substr(strUrl.indexOf("?") + 1);  //获取参数
+
+        if (strUrl.toLowerCase().indexOf(para.toLowerCase()) == -1) { //如果没有找到参数,则直接赋值
+          strNewUrl = url + "&" + para + "=" + val;
+          window.location.href = strNewUrl;
+        } else {
+          var aParam = strUrl.split("&");
+
+          for (var i = 0; i < aParam.length; i++) {
+            if (aParam[i].substr(0, aParam[i].indexOf("=")).toLowerCase() == para.toLowerCase()) {
+              aParam[i] = aParam[i].substr(0, aParam[i].indexOf("=")) + "=" + val;
+            }
+          }
+          strNewUrl = url.substr(0, url.indexOf("?") + 1) + aParam.join("&");
+          window.location.href = strNewUrl;
+        }
+      } else {
+        strUrl += "?" + para + "=" + val;
+        window.location.href = strUrl;
+      }
+    }
+</script>
+{% endblock %}

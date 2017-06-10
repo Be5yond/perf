@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+
+{% block content %}
+<div class="ibox-title">
+    <ol class="breadcrumb ">
+        <li><a href="#">Home</a></li>
+        <li class="active">Tasks</li>
+    </ol>
+</div>
+
+<div class="ibox-content h5" id="filters">
+    {{ form.subject.errors }}
+    <ul class="nav nav-pills">
+        <li class="dropdown">
+            <button id="dLabel" type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" >
+                状态
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dLabel">
+                <li><a name="btn_wait" class="btn btn-primary btn-lg" onclick="setUri('status', 'wait')">wait</a></li>
+                <li><a name="btn_wait" class="btn btn-warning btn-lg" onclick="setUri('status', 'running')">running</a></li>
+                <li><a name="btn_wait" class="btn btn-success btn-lg" onclick="setUri('status', 'finish')">finish</a></li>
+                <li><a name="btn_wait" class="btn btn-info btn-lg" onclick="setUri('status', 'error')">error</a></li>
+            </ul>
+        </li>
+        <!--<li class="dropdown">-->
+            <!--<button id="eLabel" type="button" class="btn btn-primary btn-lg" data-toggle="dropdown" >-->
+                <!--测试项-->
+                <!--<span class="caret"></span>-->
+            <!--</button>-->
+            <!--<ul class="dropdown-menu" aria-labelledby="dLabel">-->
+                <!--<li><a name="btn_wait" class="btn btn-primary btn-lg" onclick="setUri('status', 'wait')">排队中</a></li>-->
+            <!--</ul>-->
+        <!--</li>-->
+        <li class="pull-right">
+            <a name="btn_create" href="{% url 'app:task_step' %}" class="btn btn-info btn-lg" style="color:white;">
+                <i class="glyphicon glyphicon-plus"></i></a>
+        </li>
+    </ul>
+</div>
+<div class="ibox-content h5" id="tasks">
+    <table class="table table-striped table-bordered table-hover ">
+        <thead>
+        <tr>
+            <th class="text-center" width="5%">状态</th>
+            <th class="text-center" width="10%">名称</th>
+            <th class="text-center" width="10%">描述</th>
+            <th class="text-center" width="15%">测试模版</th>
+            <th class="text-center" width="20%">执行主机</th>
+            <th class="text-center" width="15%">执行时间</th>
+            <th class="text-center" width="5%">结果</th>
+            <th class="text-center" width="25%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for t in p.object_list%}
+        <tr>
+            <td class="text-center">{{ t.status }}</td>
+            <td class="text-center">{{ t.name }}</td>
+            <td class="text-center">{{ t.desc }}</td>
+            <td class="text-center">{{ t.profile.name }}</td>
+            <td class="text-center">{{ t.host.name }}:<a href="/perf/hosts/{{ t.host.id }}">{{ t.host.ip }}
+                <i class="glyphicon glyphicon-eye-open"></i></a></td>
+            <td class="text-center">{{ t.exec_time | date:"Y-m-d f" }}</td>
+            <td class="text-center">
+                <a class="btn" href="/perf/tasks/reports/{{ t.id }}">
+                <i class="glyphicon glyphicon-th-list"></i></a>
+            </td>
+            <td class="text-center">
+                <form method="post" class="form-horizontal" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% if t.status == "wait" %}
+                    <button name="btn_start" value="{{ t.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-play"></i></button>
+                    {% elif t.status == "running" %}
+                    <a onclick="liveLog('log{{ t.id }}')" class="btn btn-info btn-sm">log</a>
+                    <button name="btn_stop" value="{{ t.id }}" class="btn btn-danger"><i class="glyphicon glyphicon-stop"></i></button>
+                    {% else %}
+                    <a onclick="showLog('{{ t.log|addslashes|linebreaksbr }}')" class="btn btn-info btn-sm">log</a>
+                    <!--<a onclick="liveLog('log{{ t.id }}')" class="btn btn-info btn-sm">log</a>-->
+                    <button name="btn_start" value="{{ t.id }}" class="btn btn-primary"><i class="glyphicon glyphicon-play"></i></button>
+                    <button class="btn btn-danger" type="button" id='del_rule' data-toggle="modal"
+                            data-target="#del_rule_{{ t.id }}"><i class="glyphicon glyphicon-trash"></i></button>
+                    {% endif %}
+                </form>
+                <div class="modal fade" id="del_rule_{{ t.id }}" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title">确认将删除这个任务及其执行记录</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form method="post" class="form-horizontal" action="" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <button type="button" name="btn_cancel" class="btn btn-default" data-dismiss="modal">取消</button>
+                                    <button name="btn_del" value="{{ t.id }}" class="btn btn-primary">确定</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-lg">
+            {% if p.has_previous %}
+            <li>
+                <a onclick="setUri('page', {{ p.previous_page_number }})"><span aria-hidden="true">&laquo;</span></a>
+            </li>
+            {% endif %}
+            {% for n in page_range %}
+            <li><a onclick="setUri('page', {{ n }})">{{ n }}</a></li>
+            {% endfor %}
+            {% if p.has_next %}
+            <li>
+                <a onclick="setUri('page', {{ p.next_page_number }})"><span aria-hidden="true">&raquo;</span></a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+<div class="modal fade" id="task_log">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Log</h4>
+            </div>
+            <div class="modal-body">
+                <pre id="log_content">{{ log }}</pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showLog(content) {
+        $('#log_content').html(content)
+        $('#task_log').modal('toggle')
+    }
+
+    function liveLog(channel) {
+        alert(channel)
+        <!--socket.onopen(channel);-->
+        t1=setInterval("getLogs('"+channel+"')",2000);
+        $('#task_log').modal('toggle');
+    }
+
+    function setUri(para, val) {
+      var strNewUrl = new String();
+      var strUrl = new String();
+      var url = window.location.href;
+      strUrl = window.location.href;
+
+      if (strUrl.indexOf("?") != -1) {
+        strUrl = strUrl.substr(strUrl.indexOf("?") + 1);  //获取参数
+
+        if (strUrl.toLowerCase().indexOf(para.toLowerCase()) == -1) { //如果没有找到参数,则直接赋值
+          strNewUrl = url + "&" + para + "=" + val;
+          window.location.href = strNewUrl;
+        } else {
+          var aParam = strUrl.split("&");
+
+          for (var i = 0; i < aParam.length; i++) {
+            if (aParam[i].substr(0, aParam[i].indexOf("=")).toLowerCase() == para.toLowerCase()) {
+              aParam[i] = aParam[i].substr(0, aParam[i].indexOf("=")) + "=" + val;
+            }
+          }
+          strNewUrl = url.substr(0, url.indexOf("?") + 1) + aParam.join("&");
+          window.location.href = strNewUrl;
+        }
+      } else {
+        strUrl += "?" + para + "=" + val;
+        window.location.href = strUrl;
+      }
+    }
+
+    function disable(which){
+      $(which).attr("disabled", true);
+    }
+
+
+
+    <!--// Note that the path doesn't matter for routing; any WebSocket-->
+    <!--// connection gets bumped over to WebSocket consumers-->
+    <!--socket = new WebSocket("ws://" + window.location.host + "/chat/");-->
+    <!--var element=document.getElementById("log_content");-->
+    <!--socket.onmessage = function(e) {-->
+        <!--var obj = JSON.parse(e.data)-->
+        <!--element.innerHTML+=obj.msg;-->
+        <!--socket.send(JSON.stringify({"index":obj.index, "channel":obj.channel}));-->
+    <!--}-->
+    <!--socket.onopen = function(c) {-->
+        <!--socket.send(JSON.stringify({"index":0, "channel":c}));-->
+    <!--}-->
+    <!--// Call onopen directly if socket is already open-->
+    <!--&lt;!&ndash;if (socket.readyState == WebSocket.OPEN) socket.onopen();&ndash;&gt;-->
+
+
+
+    var index = 0;
+    var element=document.getElementById("log_content");
+    function getLogs(c){
+       jQuery.getJSON("{% url 'app:api_log' %}?channel="+c+"&index="+index,function(data){
+            element.innerHTML+=data.msg;
+            index = data['index'];
+       });
+    };
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block header-content %}
+<link href="/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<script src="/static/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ibox-title">
+    <ol class="breadcrumb ">
+        <li><a href="#">Home</a></li>
+        <li class="active">添加测试任务</li>
+    </ol>
+</div>
+
+
+<!--<div class="ibox-content h5" id="tools">-->
+    <!--<div id="new_task">-->
+        <!--<h3>选择测试项</h3>-->
+        <!--{% for t in tools %}-->
+        <!--<a name="btn_" href="?tool={{ t }}" class="btn btn-primary btn-lg {% ifequal active t %} btn-success {% endifequal %}">{{ t }}</a>-->
+        <!--{% endfor %}-->
+    <!--</div>-->
+<!--</div>-->
+
+<div class="ibox-content h5" id="exec">
+    <div class="panel blank-panel modal-body">
+    <form method="post" id="portForm" class="form-horizontal" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="form-group">
+            <label class="control-label">选择执行时间</label>
+            <input name="exec_time" class="form-control datetimepicker">
+        </div>
+        <div class="modal-footer">
+            <button id="add_task" name="btn_add" value='' type="submit" class="btn btn-primary btn-lg">添加</button>
+        </div>
+    </form>
+    </div>
+</div>
+
+<script>
+$(document).ready(function () {
+            $('.datetimepicker').css('cursor', 'pointer');
+            var myDate = new Date();
+            $('.datetimepicker').datetimepicker({
+                language: 'zh-CN',
+                format: "yyyy-mm-dd hh:ii",
+                todayBtn: true,
+                todayHighlight: true,
+                autoclose: true,
+                forceParse: true,
+                minuteStep:60,
+                minView: 0,
+                viewSelect:'day',
+                startDate:myDate.getFullYear()+'-'+(myDate.getMonth()+1)+'-'+myDate.getDate()+' '+myDate.getHours()+':'
+            +myDate.getMinutes(),
+                weekStart:1,
+                calendarWeeks:true,
+                keyboardNavigation: true,
+                pickerPosition: 'top-left'
+            });
+
+          $("#add_task").click(function(){
+            $(this).attr("disabled", true);
+            $("#portForm").submit();
+          });
+       });
+</script>
+
+{% endblock %}
+
+

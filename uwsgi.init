@@ -1,0 +1,29 @@
+# myweb_uwsgi.ini file
+[uwsgi]
+
+# Django-related settings
+
+socket = 0.0.0.0:9993
+
+# the base directory (full path)
+chdir           = /letv/perf/perf
+
+# Django s wsgi file
+module          = wsgi
+
+# process-related settings
+# master
+master          = true
+
+# maximum number of worker processes
+processes       = 4
+
+# ... with appropriate permissions - may be needed
+# chmod-socket    = 664
+# clear environment on exit
+vacuum          = true
+
+buffer-size     = 32768
+#req-logger = /perf/logs/reqlog.log
+#logger = /perf/logs/errlog.log
+daemonize = /perf/logs/perf_uwsgi.log

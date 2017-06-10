@@ -1,0 +1,80 @@
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="btn-block" data-toggle="collapse" data-parent="#accordion" href="#collapse1">Ubench</a>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body"><div class="input-group input-group-lg">
+                    <span class="input-group-addon" style="background-color: #FFEFD5;">Ubench</span>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >cpu & mem<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">cpu & mem</a></li>
+                            <li><a href="#">cpu</a></li>
+                            <li><a href="#">mem</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" aria-label="...">
+                    <span role="button" class="input-group-addon btn-info" style="background-color: #00FFFF;">Run</span>
+                </div></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="btn-block" data-toggle="collapse" data-parent="#accordion" href="#collapse2">fio</a>
+                </h4>
+            </div>
+            <div id="collapse2" class="panel-collapse collapse">
+                <div class="panel-body"><div class="input-group input-group-lg">
+                    <span class="input-group-addon" style="background-color: #FFEFD5;">fio</span>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >RW<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">read</a></li>
+                            <li><a href="#">randread</a></li>
+                            <li><a href="#">randwrite</a></li>
+                            <li><a href="#">randrw</a></li>
+                            <li><a href="#">rw</a></li>
+                        </ul>
+                    </div>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >SATA_SDB<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">系统盘</a></li>
+                            <li><a href="#">挂载盘</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" placeholder="BS 如:64k" aria-label="...">
+                    <span role="button" class="input-group-addon btn-info" style="background-color: #00FFFF;">Run</span>
+                </div></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a class="btn-block" data-toggle="collapse" data-parent="#accordion" href="#collapse3">iperf</a>
+                </h4>
+            </div>
+            <div id="collapse3" class="panel-collapse collapse">
+                <div class="panel-body"><div class="input-group input-group-lg">
+                    <span class="input-group-addon">iperf</span>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" >host<span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">host</a></li>
+                            <li><a href="#">client</a></li>
+                        </ul>
+                    </div>
+                    <input type="text" class="form-control" aria-label="...">
+                </div></div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!--<a onclick="showLog('{{ t.log|addslashes|linebreaksbr }}')" class="btn btn-info btn-sm">log</a>-->

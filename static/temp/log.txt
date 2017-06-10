@@ -1,0 +1,70 @@
+[leuser@123.59.228.235] out: sata_sdb: (g=0): rw=write, bs=1M-1M/1M-1M/1M-1M, ioengine=libaio, iodepth=64
+[leuser@123.59.228.235] out: fio-2.0.10
+[leuser@123.59.228.235] out: Starting 1 thread
+[leuser@123.59.228.235] out: Jobs: 1 (f=1)
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [33.3% done] [0K/44032K/0K /s] [0 /43 /0  iops] [eta 00m:06s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [44.4% done] [0K/65536K/0K /s] [0 /64 /0  iops] [eta 00m:05s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [55.6% done] [0K/43008K/0K /s] [0 /42 /0  iops] [eta 00m:04s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [66.7% done] [0K/43988K/0K /s] [0 /42 /0  iops] [eta 00m:03s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [77.8% done] [0K/25574K/0K /s] [0 /24 /0  iops] [eta 00m:02s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [88.9% done] [0K/83968K/0K /s] [0 /82 /0  iops] [eta 00m:01s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [100.0% done] [0K/55296K/0K /s] [0 /54 /0  iops] [eta 00m:00s]
+[leuser@123.59.228.235] out: Jobs: 1 (f=1): [W] [2.1% done] [0K/1022K/0K /s] [0 /0 /0  iops] [eta 07m:46s]    
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: sata_sdb: (groupid=0, jobs=1): err= 0: pid=23096: Thu Jun  8 08:36:22 2017
+[leuser@123.59.228.235] out:   write: io=461824KB, bw=51676KB/s, iops=50 , runt=  8937msec
+[leuser@123.59.228.235] out:     slat (usec): min=155 , max=781522 , avg=17995.66, stdev=74776.09
+[leuser@123.59.228.235] out:     clat (msec): min=33 , max=2362 , avg=1244.68, stdev=412.15
+[leuser@123.59.228.235] out:      lat (msec): min=33 , max=2363 , avg=1262.67, stdev=412.86
+[leuser@123.59.228.235] out:     clat percentiles (msec):
+[leuser@123.59.228.235] out:      |  1.00th=[  334],  5.00th=[  457], 10.00th=[  766], 20.00th=[ 1004],
+[leuser@123.59.228.235] out:      | 30.00th=[ 1188], 40.00th=[ 1205], 50.00th=[ 1205], 60.00th=[ 1303],
+[leuser@123.59.228.235] out:      | 70.00th=[ 1385], 80.00th=[ 1500], 90.00th=[ 1778], 95.00th=[ 2057],
+[leuser@123.59.228.235] out:      | 99.00th=[ 2376], 99.50th=[ 2376], 99.90th=[ 2376], 99.95th=[ 2376],
+[leuser@123.59.228.235] out:      | 99.99th=[ 2376]
+[leuser@123.59.228.235] out:     bw (KB/s)  : min=19241, max=102901, per=90.66%, avg=46847.33, stdev=22129.46
+[leuser@123.59.228.235] out:     lat (msec) : 50=0.44%, 250=0.44%, 500=6.21%, 750=2.22%, 1000=9.98%
+[leuser@123.59.228.235] out:     lat (msec) : 2000=72.73%, >=2000=7.98%
+[leuser@123.59.228.235] out:   cpu          : usr=1.07%, sys=0.82%, ctx=1004, majf=0, minf=89
+[leuser@123.59.228.235] out:   IO depths    : 1=0.2%, 2=0.4%, 4=0.9%, 8=1.8%, 16=3.5%, 32=7.1%, >=64=86.0%
+[leuser@123.59.228.235] out:      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+[leuser@123.59.228.235] out:      complete  : 0=0.0%, 4=99.7%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.3%, >=64=0.0%
+[leuser@123.59.228.235] out:      issued    : total=r=0/w=451/d=0, short=r=0/w=0/d=0
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: Run status group 0 (all jobs):
+[leuser@123.59.228.235] out:   WRITE: io=461824KB, aggrb=51675KB/s, minb=51675KB/s, maxb=51675KB/s, mint=8937msec, maxt=8937msec
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: Disk stats (read/write):
+[leuser@123.59.228.235] out:     dm-0: ios=0/1364, merge=0/0, ticks=0/1124603, in_queue=1146832, util=98.69%, aggrios=0/1362, aggrmerge=0/3, aggrticks=0/1137466, aggrin_queue=1137465, aggrutil=98.48%
+[leuser@123.59.228.235] out:   sda: ios=0/1362, merge=0/3, ticks=0/1137466, in_queue=1137465, util=98.48%
+[leuser@123.59.228.235] out: Making bw logs
+[leuser@123.59.228.235] out: Terminal type set to 'png'
+[leuser@123.59.228.235] out: Options are 'nocrop font "/usr/share/fonts/dejavu/DejaVuSans.ttf,12" fontscale 1.0 size 1024,768 '
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: Making bw logs
+[leuser@123.59.228.235] out: Terminal type set to 'png'
+[leuser@123.59.228.235] out: Options are 'nocrop font "/usr/share/fonts/dejavu/DejaVuSans.ttf,12" fontscale 1.0 size 1024,768 '
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: Making slat logs 'satabw_slat.log' title 'satabw' with lines
+[leuser@123.59.228.235] out: Terminal type set to 'png'
+[leuser@123.59.228.235] out: Options are 'nocrop font "/usr/share/fonts/dejavu/DejaVuSans.ttf,12" fontscale 1.0 size 1024,768 '
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: Making clat logs 'satabw_clat.log' title 'satabw' with lines
+[leuser@123.59.228.235] out: Terminal type set to 'png'
+[leuser@123.59.228.235] out: Options are 'nocrop font "/usr/share/fonts/dejavu/DejaVuSans.ttf,12" fontscale 1.0 size 1024,768 '
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: Making lat logs 'satabw_lat.log' title 'satabw' with lines
+[leuser@123.59.228.235] out: Terminal type set to 'png'
+[leuser@123.59.228.235] out: Options are 'nocrop font "/usr/share/fonts/dejavu/DejaVuSans.ttf,12" fontscale 1.0 size 1024,768 '
+[leuser@123.59.228.235] out: 
+[leuser@123.59.228.235] out: satabw_bw.log
+[leuser@123.59.228.235] out: satabw_clat.log
+[leuser@123.59.228.235] out: satabw_iops.log
+[leuser@123.59.228.235] out: satabw_lat.log
+[leuser@123.59.228.235] out: satabw_slat.log
+[leuser@123.59.228.235] out: satabw_iops.log-bw.png
+[leuser@123.59.228.235] out: satabw_iops.log-clat.png
+[leuser@123.59.228.235] out: satabw_iops.log-IOPS.png
+[leuser@123.59.228.235] out: satabw_iops.log-lat.png
+[leuser@123.59.228.235] out: satabw_iops.log-slat.png
+[leuser@123.59.228.235] out: 

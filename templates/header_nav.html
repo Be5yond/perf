@@ -1,0 +1,17 @@
+{% load bootstrap3 %}
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+            </li>
+            <li>
+                <a href="">
+                    {% bootstrap_icon "off" %} 退出
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+{# Display django.contrib.messages as Bootstrap alerts #}
+{% bootstrap_messages %}
